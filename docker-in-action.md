@@ -1,3 +1,11 @@
+---
+emoji: 🐋
+title: Docker in Action
+Description: I am trying to follow the docker-in-action book to learn about docker
+layout: base
+type: page
+---
+
 Dockers use Linux namespaces and cgroups, which have been part of Linux since 2007. Docker does not provide the container technology but it makes it simpler to use.
 The docker containers are isolated with respect to eight aspects.
 
