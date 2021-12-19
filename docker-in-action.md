@@ -141,7 +141,7 @@ docker run -d --name wp --read-only wordpress:4
 the status of a running container can be found like so,
 
 ```
-docker inspect --format "{{.State.Running}}" wp
+docker inspect --format "{ {.State.Running} }" wp
 ```
 
 `docker inspect` prints the json document that docker maintains for that container `--format` flag can be used to fetch a specific key. We are trying to get the value of Running from the state object.
@@ -493,7 +493,7 @@ Managed volumes are different from bind mount volumes because the Docker daemon 
 This can be inspected by doing
 
 ```shell
-docker inspect -f "{{json .Volumes" cass-shared
+docker inspect -f "{ {json .Volumes} }" cass-shared
 ```
 
 This would show a key map pairing of the container to the host
