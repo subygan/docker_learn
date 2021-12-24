@@ -652,9 +652,91 @@ inbound connections can be mapped using `-p <hostport>:<containerport` and other
 
 ### 5.4.5 Modifying the bridge interface
 
-Usually the bridge is run unmodified.
+There are 3 options for modifying the bridge interface
+
+- Define the address and subnet of the bridge.
+- Define the range of the IP addresses that can be assigned to containers
+- Define the Maximum Transmission Unit
 
 
+`docker -d --bip "192.168.0.128/25"` Sets the IP of the bridge between 192.168.0.128 - 192.168.0.255 bip => bridge IP
+
+`docker -d -mtu 1200` the MTU is the Maximum transmission Unit that is allowed in the network.This is usually capped at 1500 bytes.
+
+
+## 5.7 Inter-container dependencies
+
+there are situations where we need to be notified of some container coming up or dow
+
+### 5.7.1 links for local service discovery
+
+there is a way to tell Docker to link a container with another container. The container must be running when the new contianer must be running.
+
+Adding a link on a new container does three things.
+
+- Environment variable describing the target container's end point will be created.
+- the link alias wil be added to the DNS overrride list of the new container with the IP address of the target container.
+- Is inter-container communication is disabled, Docker will add specific firewall rules to allow communication between linked containers.
+
+the ports that are open for communication are those that have been exposed by the target container. So the `--expose` flag provides a shortcut for __*only one particular type of container to host port mapping when ICC is enabled.*__ When ICC is disabled, `--expose` becomes a tool for defining firewall rules and explicit declaration of a container's interface on the network.
+
+
+```shell
+docker run -d --name Container1 \
+--expose 3306 \
+<some_image> \
+echo container_start
+
+docker run -d --name Container2 \
+--link Container1:alias1 \
+<some_image_2> echo value
+
+docker run -d --name Container3 \
+<some_other_image>
+```
+
+
+In the example, the Container2 is able to access Container1, because it is linked with that. But the third program is unable to access data from Container1
+
+If inter-container communication is enabled, attackers would be able to attack the container1 through container3, which is not even configured to access the data from the container1
+
+### 5.7.2 Link aliases
+
+
+Link aliases are used to mention a linkage to a container. This argument is a map from a container name or ID to an alias. The alias has to be __unique within that scope__.
+If there is a collision that takes place. Even then, the link is created. But, it would be of no use as there will only be one entry in the record and the containers won't know which.
+
+If an application is written to expect an alias `db` for a database application. But the `db` alias was mistakenly configured to link with something else. Then we see that the whole application falls apart.
+
+So usually it is better to check if the alias is active before connecting with it.
+
+
+```shell
+#!/bin/sh
+
+if [ -z ${DATABASE_PORT+x} ]
+then
+    echo "Link alias 'databse' was not set!"
+    exit
+else
+   exec "$@"   
+fi
+```
+
+### 5.7.3 Environment modifications
+
+The new link is __injected to other containers by environment variables.
+
+
+```shell
+docker run -d --name mydb \
+--expose 2222 --expose 3333 --expose 4444/udp \
+alpine:latest nc -l 0.0.0.0:2222
+
+docker run -it --rm \
+--link mydb:database \
+alpine:latest env
+```
 
 
 
