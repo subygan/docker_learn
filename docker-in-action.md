@@ -738,12 +738,14 @@ docker run -it --rm \
 alpine:latest env
 ```
 
+## Resource allowances
+
+Containers can hog all the resources when they are running, disrupting other services that are running. Docker has flags tha thelp in management of htose
 
 
+`-m` or `--memory` The flag takes in a value and a unit. The format is, `<number><optional unit> where unit=b, k, m or g. Representing byte, KB, MB, GB respectively
 
-
-
-
+`--cpu-share` this takes in an integer
 
 
 
