@@ -725,7 +725,7 @@ fi
 
 ### 5.7.3 Environment modifications
 
-The new link is __injected to other containers by environment variables.
+The new link is __injected__ to other containers by environment variables.
 
 
 ```shell
@@ -738,7 +738,7 @@ docker run -it --rm \
 alpine:latest env
 ```
 
-## Resource allowances
+## 6.1 Resource allowances
 
 Containers can hog all the resources when they are running, disrupting other services that are running. Docker has flags tha thelp in management of htose
 
@@ -747,12 +747,88 @@ Containers can hog all the resources when they are running, disrupting other ser
 
 `--cpu-share` this takes in an integer
 
+### 6.1.1 Memory limits
+
+Syntax
+
+`<number><optional unit> where unit = b,k,m or g`
+
+example
+
+```shell
+docker run -d --name ch6_mariadb \
+--memory 256m \
+--cpu-shares 1024 \
+--cap-drop all \
+dockerfile/mariadb
+```
+
+Memory allocation can move beyond the available memory of the system using __swap space__
 
 
+### 6.1.2 CPU
+
+We can establish relative weights, with the `--cpu-shares` flag. The value provided is an integer.
+CPU restrictions are enforced only when there are memory constrained programs running. 
+also the CPU sharing works in a percentage manner, for example if one container has `--cpu-shares 256` and another has `--cpu-shares128` Then the first one gets 2/3 of the cpu power and the second one gets 1/3.
 
 
+### 6.1.3 Access to devices
+
+it is possible to give access to specific device resources, like keyboard, webcam and stuff.
+
+for example
+
+```
+docker -it --rm \
+--device /dev/video0:/dev/video) \
+ubuntu:latest ls -al /dev
+```
+
+This mounts The camera that is available at /dev/video0 in the host to the /dev/video of the container.
+
+### 6.2 Shared memory
+
+It is possible to share memory between containers running in the same contianer.
+
+This is called InterProcessCommunication (IPC). by default Docker creates unique IPC namespace. 
+This helps in making two containers share messages
+
+### 6.2.1 Sharing IPC between containers
+
+creating a producer
+
+```
+docker run -d -u nobody --name ch6_ipc_producer \
+--ipc="shareable" \
+docekrinaction/ch6_ipc -producer
 
 
+docker run -d --name ch6_ipc_consumer \
+--ipc container:ch6_ipc_producer \
+dockerinaction/ch6_ipc -consumer
+```
+
+The first container creates a processor that writes to a queue, while the second one reads from those queues. note the `--ipc="shareable"` which makes its IPC namespace accessible by others
+
+if not this, then we would have to expose a port between each other and relay messages, this is just a simpler way of doing the same
 
 
+### 6.2.2 using an open memory container
+
+Open memory containers use the host memory to relay messages
+
+```
+docekr -d --name ch6_ipc_producer \
+--ipc host \
+dockerinaction/ch6_ipc -producer
+
+docker -d --name ch6_ipc_consumer \
+--ipc host \
+dockerinaction/ch6_ipc -consumer
+```
+
+## 7 Packaging software in images
+
+### Union file system
 
