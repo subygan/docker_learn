@@ -2,8 +2,6 @@
 emoji: 🐳
 title: Learning Docker
 Description: Progress of me trying to learn docker
-layout: base
-type: page
 ---
 
 # docker_learn
