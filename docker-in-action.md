@@ -289,7 +289,7 @@ This is where repository comes in, making it easier to work with repositories.
 __A *repository* is a named bucket of images__. The name is *similar to a URL*. A repository's name is made up of the name of the host where the image is located, the user account that owns the image, and a short name.
 
 
-```
+```shell
                           ˇˇˇˇˇˇˇˇˇˇˇˇˇ User name
 exmple docker -> quay.io/dockerinaction/ch3_helloregistry
                  ^^^^^^^ Registry       ^^^^^^^^^^^^^^^^^ Short name
