@@ -96,7 +96,7 @@ docker exec kjsddi234jkjh3h42b3423h4b23n4k234j23k4k234 ps
 docker stop uakjsdnfjadskj1jk23jbb31b2j2b3hj1bj23bbj2b 
 ```
 
-![state trasition diagram for docker from docker in action book](state_transition.png)
+![state trasition diagram for docker from docker in action book](/assets/images/dia/state_transition.png)
 
 ```
 MAILER_CID=$(docker run -d dockerinaction/ch2_mailer)
@@ -379,7 +379,7 @@ There are requirements in certain cases where we would have to persist data from
 
 When data has to be written the union file system is good enough. But to persist anything beyond the container, we would have to write to the file system directly. This is done by Mounting a location of the host with the docker container and using MNT filesytem to write to and read from. this image from the book puts it clearly
 
-![Mounted volume](docker-FS.png)
+![Mounted volume](/assets/images/dia/docker-FS.png)
 
 
 ### Volumes provide container independent data management
@@ -467,7 +467,7 @@ There are two types of volume.
 - `Bind mount volume` - this is the one which has a mapping against the container and the host system file and it gets mounted on to the container
 - `Managed volume` - This is the volume created by Docker daemon in the space controlled by the daemon, called Docker managed space. 
 
-![Bind and managed](bind_and_managed.png)
+![Bind and managed](/assets/images/dia/bind_and_managed.png)
 
 
 ### Bind mount volume
@@ -571,7 +571,7 @@ There is a seperate network stack for docker. This is called the *Operating syst
 
 All of these are managed by the `docker0`, which is an interface to the docker bridge.
 
-![Networking illustrations](networking.png)
+![Networking illustrations](/assets/images/dia/networking.png)
 
 ## 5.2.2 Four network container
 
@@ -580,7 +580,7 @@ All of these are managed by the `docker0`, which is an interface to the docker b
 - Joined containers
 - Open containers
 
-![Network types](network_types.png)
+![Network types](/assets/images/dia/network_types.png)
 
 
 ## 5.3 Closed containers
