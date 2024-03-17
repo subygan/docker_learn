@@ -57,5 +57,6 @@ The following happens for the above command
 - Docker creates a network interface to connect the container to the default network, since no networking options were provided. This includes **assingning an IP address to the container**.
 - Docker starts the container and executes `/bin/bash`, Because the container is running interactively and attached to your terminal (due to the `-i` and `-t` flags).
 
+### Container networking
 
-
+`network_mode: host` does not work on mac and the drivers are only available in linux
