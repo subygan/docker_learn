@@ -4,6 +4,66 @@ title: Learning Docker
 Description: Progress of me trying to learn docker
 ---
 
+## Docker install
+
+Installing docker is usually a painful thing
+
+```shell
+
+# Update package list
+sudo apt-get update
+
+# Install prerequisites
+sudo apt-get install -y \
+    apt-transport-https \
+    ca-certificates \
+    curl \
+    software-properties-common
+
+# Add Docker's official GPG key
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo gpg --dearmor -o /usr/share/keyrings/docker-archive-keyring.gpg
+
+# Add Docker repository
+echo \
+  "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/docker-archive-keyring.gpg] https://download.docker.com/linux/ubuntu \
+  $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list
+
+# Update package list again
+sudo apt update
+
+# Install Docker
+sudo apt install docker.io
+
+# Add your user to docker group (optional, to run docker without sudo)
+sudo usermod -aG docker $USER
+
+# Start and enable Docker service
+sudo systemctl start docker
+sudo systemctl enable docker
+```
+
+To install docker compose
+
+```shell
+
+# Download the latest Docker Compose binary
+sudo curl -L "https://github.com/docker/compose/releases/latest/download/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+
+# Make it executable
+sudo chmod +x /usr/local/bin/docker-compose
+
+# Create a symbolic link to make it accessible via 'docker compose'
+sudo mkdir -p /usr/local/lib/docker/cli-plugins/
+sudo ln -s /usr/local/bin/docker-compose /usr/local/lib/docker/cli-plugins/docker-compose
+
+# Verify installation
+docker-compose --version
+# or
+docker compose version
+
+```
+
+
 # docker_learn
 Learning docker, a little deeper this time.
 
