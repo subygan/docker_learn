@@ -27,7 +27,7 @@ Linux namespaces and cgroups take care of containers at runtime. docker uses ano
 ```shell
 docker run --detach --name web nginx:latest 
 ```
-When this command is run, Docker will install `nginx:latest` deom the Nginx erpositroy hosted on Docker Hub. This outputs a blob of characters in the terminal. This looks something like this: `ghnjfcghjnfchgjfaghjdf9823972hgabjabagjs`
+When this command is run, Docker will install `nginx:latest` from the Nginx repositroy hosted on Docker Hub. This outputs a blob of characters in the terminal. This looks something like this: `ghnjfcghjnfchgjfaghjdf9823972hgabjabagjs`
 
 This is the unique identifier of the container that was just created to run nginx. Everytime `docker run` is used, the created container will have a similar unique identifier.
 
@@ -47,9 +47,9 @@ this uses two flags, `--interactive` (or `-i`) and `--tty` (or `-t`).
 
 The `--interactive` flag tells Docker to keep the the *standard Input stream* open. 
 
-The `-t` flag tells docker to *allocate a virtual terminal for the container*, Which will  allow you ot pass the signals to the container.
+The `-t` flag tells docker to *allocate a virtual terminal for the container*, Which will  allow you to pass the signals to the container.
 
-The command in teh interactive container exampel creates a container, starts a UNIX shell, and is linked to the container that's running NGINX. From this shell we can verify that the web server is running correctly by 
+The command in the interactive container example creates a container, starts a UNIX shell, and is linked to the container that's running NGINX. From this shell we can verify that the web server is running correctly by 
 
 `
 wget -O - http://web:80/
@@ -57,7 +57,7 @@ wget -O - http://web:80/
 
 This terminal can be shut down by typing  `exit`. **This will terminate the shell program and stop the container.**
 
-It's possible to create an interactive container, manyally start a process insisde that container and then detach you terminal. You can do so by holding Ctrl (or Control) key and pressing P and then Q. This will work only when you've used the --tty option.
+It's possible to create an interactive container, manually start a process inside that container and then detach you terminal. You can do so by holding Ctrl (or Control) key and pressing P and then Q. This will work only when you've used the --tty option.
 
 This is a monitoring agent that will test the web server as we did previously and send a message with the mailer if the web server stops. this command will start the agent in a interactive container using the short-form flags:
 
@@ -76,7 +76,7 @@ The `-it` is because single character flags can be combined [check here](https:/
 ```
 docker ps
 ```
-This will list the detailes about the running containers
+This will list the details about the running containers
 
 ## PID namespces and conflict resolution
 
@@ -115,20 +115,20 @@ __Containers should be started in reverse order of their dependency.__ Like a DA
 
 Software needs to be system agnostic to be runnable anywhere.
 
-There are three specific features to help build environemnt-agnostic systems:
+There are three specific features to help build environment-agnostic systems:
 
 - Read-only file system
 - Environment variable injection
 - volumes
 
-For example if we are running a wordpress container. Wordpress requires a mysql db. So a wordpress has a read-only file system
+For example if we are running a wordpress container. Wordpress requires a mysql db. So wordpress has a read-only file system
 
 
 ### Read-only file systems.
 
-Read-only file systems ar ebeneficial in two ways.
+Read-only file systems ar beneficial in two ways.
 
-- Tere is confidence that the container won't be specialized from changes to the files it contains.
+- There is confidence that the container won't be specialized from changes to the files it contains.
 - An attacker can't compromise files in the container.
 
 
@@ -202,7 +202,7 @@ Docker provides this functionality with a restart policy. This can b edone using
 - Never restart (default)
 - Attempt to restart when a failure is detected
 - Attempt for some predetermined time to restart when a failure is detected
-- Akways restart the container regardless of the condition
+- Always restart the container regardless of the condition
 
 Docker uses __Exponential Backoff__ strategy for timing restart attempts.
 
@@ -212,9 +212,9 @@ docker run -d --name backoff-detector --restart always busybox date
 
 ## Keeping containers running with supervisor and startup processes
 
-A supervisor process, or init process, is a program that's used to launch and maintain the state of other programs. On a Linux system, PID#1 is an init process. It starts all the other system processes and restarts them in the event that they fail unexpectedly. It's common practice to use a similar pattern inside contaiiners to start and manage proesses.
+A supervisor process, or init process, is a program that's used to launch and maintain the state of other programs. On a Linux system, PID#1 is an init process. It starts all the other system processes and restarts them in the event that they fail unexpectedly. It's common practice to use a similar pattern inside containers to start and manage processes.
 
-Using a supervisor process insisd eyour container will __keep the container running in the event that the target process, a web server, for exampel, fails and is restarted. There are several programs that might be used insisde a container. The most popular include `init, systemd, runit, upstart,` and `supervisord`.
+Using a supervisor process inside your container will __keep the container running in the event that the target process, a web server, for example, fails and is restarted. There are several programs that might be used inside a container. The most popular include `init, systemd, runit, upstart,` and `supervisord`.
 
 Running the below command starts an example container with `supervisord`
 ```
@@ -234,7 +234,7 @@ docker exec lamp-test ps
 ```
 
 This outputs the PID for that specific container.
-The Apache service can be canceled by running,
+The Apache service can be cancelled by running,
 
 ```
 docker exec lamp-test kill <PID>
@@ -246,7 +246,7 @@ This will kill the `apache` process and make it shut down. Then, supervisord pro
 docker logs lamp-test
 ```
 A common alternative to the use of init or supervisor programs is using a startup script that at least checks the preconditions for successfully starting the contained software. these are sometimes used as the default command for the container. For example the WordPress containers that was previously created, use
-and `entrypoint.sh` 
+an `entrypoint.sh` 
 
 
 ### Cleaning up
@@ -257,9 +257,9 @@ As you can see it can get pretty messy quick. To remove a specific container `do
 
 If we try to remove a container that is running, restarting or paused. Then we get an error message.
 
-All containers use hard drive space to store __*logs, container metadata, and files that have beenn written to the container file system*__ All containers also consume resources in the global namespace like container names and host port mappings.
+All containers use hard drive space to store __*logs, container metadata, and files that have been written to the container file system*__. All containers also consume resources in the global namespace like container names and host port mappings.
 
-The processes running in a container should be stopped before te files in the container are removed. You can do this with the `docker stop` command or by  using the `-f` flag on docker rm. Thekey difference is that when you stop a process using the `-f` flag. Docker sends a `SIG_KILL` signal, whcih immediately terminates the receiving process. In contrast, using `docker stop` will send a SIG_HUP signal. Recepients of `SIG_HUP` have time to perform finalization and cleanup tasks. the `SIG_KILL` signal makes for no such allowances and can result in file corruption or poor network experiences. You can issue a `SIG_KILL` directly to a container using the `docker kill` command as well.
+The processes running in a container should be stopped before the files in the container are removed. You can do this with the `docker stop` command or by  using the `-f` flag on docker rm. The key difference is that when you stop a process using the `-f` flag. Docker sends a `SIG_KILL` signal, which immediately terminates the receiving process. In contrast, using `docker stop` will send a SIG_HUP signal. Recepients of `SIG_HUP` have time to perform finalization and cleanup tasks. the `SIG_KILL` signal makes for no such allowances and can result in file corruption or poor network experiences. You can issue a `SIG_KILL` directly to a container using the `docker kill` command as well.
 
 
 When experimenting with short-lived containers, This can be avoided by using the `--rm` on the command. Doing so will automatically removes the container as soon as it enters the exited state, For example, the following command will write a message to the screen in a new BusyBox container, and the container will be removed as soon as it exits.
