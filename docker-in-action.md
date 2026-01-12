@@ -3,7 +3,7 @@ emoji: 🐋
 title: Docker in Action
 Description: I am trying to follow the docker-in-action book to learn about docker
 layout: base
-type: page
+tags: ["tech", "systems"]
 ---
 Personal notes from `Docker in action` book
 
