@@ -1,6 +1,6 @@
 ---
 emoji: 🐋
-title: Docker in Action
+title: docker in action
 Description: I am trying to follow the docker-in-action book to learn about docker
 layout: base
 tags: ["tech", "systems"]
@@ -22,7 +22,7 @@ The docker containers are isolated with respect to eight aspects.
 
 Linux namespaces and cgroups take care of containers at runtime. docker uses another set of technologies to provide containers for files that act like shipping containers
 
-### Creating and starting a new container:
+### creating and starting a new container:
 
 ```shell
 docker run --detach --name web nginx:latest 
@@ -33,7 +33,7 @@ This is the unique identifier of the container that was just created to run ngin
 
 The `--detach` flag makes docker run in the background, it can also be given as `-d`
 
-#### Running interactive containers:
+#### running interactive containers:
 
 Programs that interact with users tend to feel more interactive.
 
@@ -71,14 +71,14 @@ dockerinaction/ch2_agent
 
 The `-it` is because single character flags can be combined [check here](https://docs.docker.com/engine/reference/commandline/cli/#:~:text=Single%20character%20command%20line%20options%20can%20be%20combined%2C%20so%20rather%20than%20typing%20docker%20run%20%2Di%20%2Dt%20%2D%2Dname%20test%20busybox%20sh)
 
-### Listing, stopping, restarting, and viewing output of containers
+### listing, stopping, restarting, and viewing output of containers
 
 ```
 docker ps
 ```
 This will list the detailes about the running containers
 
-## PID namespces and conflict resolution
+## pid namespces and conflict resolution
 
 The below command can be used to rename old containers. This helps in resolving name conflicts between containers
 ```
@@ -111,7 +111,7 @@ This can be used as a script to create the mailing program.
 
 __Containers should be started in reverse order of their dependency.__ Like a DAG.
 
-## Building environment-agnostic systems
+## building environment-agnostic systems
 
 Software needs to be system agnostic to be runnable anywhere.
 
@@ -124,7 +124,7 @@ There are three specific features to help build environemnt-agnostic systems:
 For example if we are running a wordpress container. Wordpress requires a mysql db. So a wordpress has a read-only file system
 
 
-### Read-only file systems.
+### read-only file systems.
 
 Read-only file systems ar ebeneficial in two ways.
 
@@ -132,7 +132,7 @@ Read-only file systems ar ebeneficial in two ways.
 - An attacker can't compromise files in the container.
 
 
-#### *Example: Wordpress containers*
+#### *example: wordpress containers*
 
 ```
 docker run -d --name wp --read-only wordpress:4
@@ -182,7 +182,7 @@ docker run -d --name wp3 --link wpdb:mysql -p 80 \
 
 This creates specific voluems for writeable space
 
-### Environment Variable injectiopin
+### environment variable injectiopin
 
 ```
 docker run \
@@ -195,7 +195,7 @@ env
 The `--env` flag-or `-e` for short--can be used to inject any environment variable. If the variable is already set by the image or Docker, then the value will be overridden.
 
 
-### Automatically restarting containers
+### automatically restarting containers
 
 Docker provides this functionality with a restart policy. This can b edone using the `--restart` flag at container-creatioin time, you can tell Docker to do any of the following:
 
@@ -210,7 +210,7 @@ Docker uses __Exponential Backoff__ strategy for timing restart attempts.
 docker run -d --name backoff-detector --restart always busybox date
 ```
 
-## Keeping containers running with supervisor and startup processes
+## keeping containers running with supervisor and startup processes
 
 A supervisor process, or init process, is a program that's used to launch and maintain the state of other programs. On a Linux system, PID#1 is an init process. It starts all the other system processes and restarts them in the event that they fail unexpectedly. It's common practice to use a similar pattern inside contaiiners to start and manage proesses.
 
@@ -249,7 +249,7 @@ A common alternative to the use of init or supervisor programs is using a startu
 and `entrypoint.sh` 
 
 
-### Cleaning up
+### cleaning up
 
 The `docker ps -a` command outputs all containers that are dead or alive.
 
@@ -264,7 +264,7 @@ The processes running in a container should be stopped before te files in the co
 
 When experimenting with short-lived containers, This can be avoided by using the `--rm` on the command. Doing so will automatically removes the container as soon as it enters the exited state, For example, the following command will write a message to the screen in a new BusyBox container, and the container will be removed as soon as it exits.
 
-# Software Installation simplified
+# software installation simplified
 
 There are three main ways to install docker images:
 
@@ -272,7 +272,7 @@ There are three main ways to install docker images:
 - Using image files with `docker save` and `docker load`
 - Building images with Dockerfiles
 
-## Steps to install software
+## steps to install software
 
 - How to identify software to install ?
 - Where to find software to install ?
@@ -280,11 +280,11 @@ There are three main ways to install docker images:
 
 __An image is a file__. It holds files that will be available to containers created from it and metadata about the image. This metadata contains __*relationship between images, the command history for an image, exposed ports, volume definitions and other stuff*__
 
-#### Image Identifiers :
+#### image identifiers :
 Images have identifiers, so they could be used as a name and version. But these are just string of alphanumeric. This makes it hard to work with. Each time a change is made to an image, the identifier changes.
 This is where repository comes in, making it easier to work with repositories.
 
-### What is a repository?
+### what is a repository?
 
 __A *repository* is a named bucket of images__. The name is *similar to a URL*. A repository's name is made up of the name of the host where the image is located, the user account that owns the image, and a short name.
 
@@ -297,15 +297,15 @@ exmple docker -> quay.io/dockerinaction/ch3_helloregistry
 
 A repo can hold several images. Each of the images in a repo is __uniquely identified withh tags__
 
-### Using tags
+### using tags
 
 Tags are important to uniquely identify an image and a convenient way to create a useful aliases.
 
-## Finding and installing software
+## finding and installing software
 
 Software can be identified by a repo name. But how to find the repo that we want to install?
 
-### Docker Hub from the command line
+### docker hub from the command line
 
 the docker command line can be used to search the Docker Hub index for you and display the results, including the details like *the number of times each repository has been starred, The number of times, etc*
 Docker Hub also provides a set of official repos that are maintained by Docker Inc. These are often called *libraries*
@@ -322,7 +322,7 @@ To login to Dockerhub from the terminal `Docker login` command to log in to Dock
 `docker search <keyword>` - Search through the docker hub for the keyword
 
 
-# Images as files
+# images as files
 
 eg:
 
@@ -348,9 +348,9 @@ docker load -i myfile.tar
 ```
 
 
-## Installation files and isolation
+## installation files and isolation
 
-### Layer relationships
+### layer relationships
 
 Images maintain parent/child relationships.
 
@@ -358,35 +358,35 @@ Images build from their parents. They use something called as __*Union file syst
 The file system is used to create mount points on the host's file system that abstracts the use of layers. Similarly, when a Docker image is installed, its layers are unpacked and appropriately configured for use by the specific file system provider chosen for your system.
 The linux kernel provides a namespace for the (Mounting and unmounting) MNT file system
 
-### Benefits of this filesystem and abstraction
+### benefits of this filesystem and abstraction
 
 - Common layers need to be installed only once. Unlike other virtualisation tech which would require re-downloading and re-installing everything.
 - Layers provide rough tool for managing dependencies.
 - It's easy tocreate software specialization when we can layer minor changes
 
 
-### Weakness of the union file systems
+### weakness of the union file systems
 
 - Different fiel systems have different rules about file attributes, sizes, names and characters. Union file systems often need to translate between different file system rules. Best case the translations are acceptable. Else features are omitted. eg. `btrfs` not `overlayFS` provide support for the extended attributes that make SELinux work. Union Fiel systems use patter called copy-on-write, and that makes implementing memory-mapped files (the `mmap()` sys call) difficult. Some Union file systems provide implementations that work under the right condition, but it may be better idea to avoid memory-mapping files from an image.
 
 
-# Chapter 4 
-### Persitent storage and share state with volumes
+# chapter 4 
+### persitent storage and share state with volumes
 
 There are requirements in certain cases where we would have to persist data from a container eg. DB
 
-#### Introducing volumes
+#### introducing volumes
 
 When data has to be written the union file system is good enough. But to persist anything beyond the container, we would have to write to the file system directly. This is done by Mounting a location of the host with the docker container and using MNT filesytem to write to and read from. this image from the book puts it clearly
 
 ![Mounted volume](/tech/docker_learn/docker-FS.png)
 
 
-### Volumes provide container independent data management
+### volumes provide container independent data management
 
 This helps for multiple containers to share a common file system. so that, even in the failure of one container nothing is lost.
 
-### Using volumes with a NoSQL dataase
+### using volumes with a nosql dataase
 
 Eg. Cassandra DB
 
@@ -460,7 +460,7 @@ Both Cassandra client and server are deleted now. But the data would persists
 This can be proven by running a new cassandra container, mounting the volume and searching for the keyspace
 
 
-## Volume types
+## volume types
 
 There are two types of volume.
 
@@ -470,7 +470,7 @@ There are two types of volume.
 ![Bind and managed](/tech/docker_learn/bind_and_managed.png)
 
 
-### Bind mount volume
+### bind mount volume
 
 bind mount volumes are a map against the container to the host.
 This helps in hot-reloading, also there is no need to copy files onto the managed volume of a docker container.
@@ -499,7 +499,7 @@ docker inspect -f "{ {json .Volumes} }" cass-shared
 This would show a key map pairing of the container to the host
 
 
-### Sharing volumes
+### sharing volumes
 
 There are two types of shared volumes
 
@@ -507,7 +507,7 @@ There are two types of shared volumes
 - generalised sharing and the volumes from flag
 
 
-#### Host-dependent sharing
+#### host-dependent sharing
 Two or more containers are siad to use host-dependent sharing when each has a bind mount volume for a single known location on the host file system.
 
 ```shell
@@ -535,37 +535,37 @@ The above is an example of a docker container that creates two containers that w
 
 But as the containers grow this becomes difficult because of the union file system issues. This is wher ethe generalised sharing comes in.
 
-### Generalised sharing and the volumes-from flag
+### generalised sharing and the volumes-from flag
 
 the `--volume-from` flag is used to copy the volumes from another container. This basically copies all the voluems that is given to a different container.
 
-## 4.5 Advanced container patterns with volumes
+## 4.5 advanced container patterns with volumes
 
-### 4.5.1 Volume container pattern
+### 4.5.1 volume container pattern
 
 This is a pattern where a __volume container__ is created and every other container inherits the volume from this container using the `--volume-from` flag. This helps in making sure that when the volume changes in the parent container, it also changes everywhere. Making it simpler to use.
 
 
-### 4.5.2 Data-packed volume containers
+### 4.5.2 data-packed volume containers
 
 Volume containers that are described above can also be used to seed new data that could be used by othe r containers.
 this can be done be doing a `cp` command at container-creation time.
 
 
-### 4.5.3 Polymorphic container pattern
+### 4.5.3 polymorphic container pattern
 
 Volumes can help in injecting config files and such. So this makes it efficient to make new config files and use them in containers that need to be run differently.
 
-# 5 Network exposure
+# 5 network exposure
 
-## 5.2 Container networking
+## 5.2 container networking
 
 There are two types of networking.
 
 - Single-host virtual networks
 - multi-host networks
 
-## 5.2.1 Networking with standalone containers
+## 5.2.1 networking with standalone containers
 
 There is a seperate network stack for docker. This is called the *Operating system Network stack*. Each container has its own loopback interface as well as an Ethernet interface. Each container is assigned a different IP address. But this is not reachable from the external network. 
 
@@ -573,7 +573,7 @@ All of these are managed by the `docker0`, which is an interface to the docker b
 
 ![Networking illustrations](/tech/docker_learn/networking.png)
 
-## 5.2.2 Four network container
+## 5.2.2 four network container
 
 - Closed containers
 - Bridged containers
@@ -583,7 +583,7 @@ All of these are managed by the `docker0`, which is an interface to the docker b
 ![Network types](/tech/docker_learn/network_types.png)
 
 
-## 5.3 Closed containers
+## 5.3 closed containers
 
 These are containers that __don't allow any network traffic__. these process only has interface to a loopback.
 
@@ -607,11 +607,11 @@ This means that
 - Nothing outsid ethe container can connect to that interface
 - internal programs can't reach anything outside.
 
-## 5.4 Bridged containers
+## 5.4 bridged containers
 
 These container have access to the network bridge as well as a loopback. These containers can talk with each other through docker0. 
 
-### 5.4.1 Reaching out
+### 5.4.1 reaching out
 
 Bridged containers are the default way, containers are created. to specify, `--net bridge` flag can be used.
 
@@ -628,7 +628,7 @@ ping -w 2 8.8.8.8
 
 This pings the google servers and provides output.
 
-### Custom name resolution
+### custom name resolution
 
 Docker provides a way to create custom domain name resolution. Meaning, A simple DNS setup can be done and docker is able to access it.
 The `docker run`command has a `--hostname` flag adds an entry to the DNS override system inside the container. 
@@ -644,13 +644,13 @@ nslookup barker
 The above command run an alpine container with the hostname barker and tries looking up for it within the contianer and exits.
 
 
-### 5.4.3 Opening inbound  communication
+### 5.4.3 opening inbound  communication
 
 inbound connections can be mapped using `-p <hostport>:<containerport` and other such methods as mentioned in the docs
 
 `-P` can be used o expose the relevant port. Saving a lot of writing
 
-### 5.4.5 Modifying the bridge interface
+### 5.4.5 modifying the bridge interface
 
 There are 3 options for modifying the bridge interface
 
@@ -664,7 +664,7 @@ There are 3 options for modifying the bridge interface
 `docker -d -mtu 1200` the MTU is the Maximum transmission Unit that is allowed in the network.This is usually capped at 1500 bytes.
 
 
-## 5.7 Inter-container dependencies
+## 5.7 inter-container dependencies
 
 there are situations where we need to be notified of some container coming up or dow
 
@@ -700,7 +700,7 @@ In the example, the Container2 is able to access Container1, because it is linke
 
 If inter-container communication is enabled, attackers would be able to attack the container1 through container3, which is not even configured to access the data from the container1
 
-### 5.7.2 Link aliases
+### 5.7.2 link aliases
 
 
 Link aliases are used to mention a linkage to a container. This argument is a map from a container name or ID to an alias. The alias has to be __unique within that scope__.
@@ -723,7 +723,7 @@ else
 fi
 ```
 
-### 5.7.3 Environment modifications
+### 5.7.3 environment modifications
 
 The new link is __injected__ to other containers by environment variables.
 
@@ -738,7 +738,7 @@ docker run -it --rm \
 alpine:latest env
 ```
 
-## 6.1 Resource allowances
+## 6.1 resource allowances
 
 Containers can hog all the resources when they are running, disrupting other services that are running. Docker has flags tha thelp in management of htose
 
@@ -747,7 +747,7 @@ Containers can hog all the resources when they are running, disrupting other ser
 
 `--cpu-share` this takes in an integer
 
-### 6.1.1 Memory limits
+### 6.1.1 memory limits
 
 Syntax
 
@@ -766,14 +766,14 @@ dockerfile/mariadb
 Memory allocation can move beyond the available memory of the system using __swap space__
 
 
-### 6.1.2 CPU
+### 6.1.2 cpu
 
 We can establish relative weights, with the `--cpu-shares` flag. The value provided is an integer.
 CPU restrictions are enforced only when there are memory constrained programs running. 
 also the CPU sharing works in a percentage manner, for example if one container has `--cpu-shares 256` and another has `--cpu-shares128` Then the first one gets 2/3 of the cpu power and the second one gets 1/3.
 
 
-### 6.1.3 Access to devices
+### 6.1.3 access to devices
 
 it is possible to give access to specific device resources, like keyboard, webcam and stuff.
 
@@ -787,14 +787,14 @@ ubuntu:latest ls -al /dev
 
 This mounts The camera that is available at /dev/video0 in the host to the /dev/video of the container.
 
-### 6.2 Shared memory
+### 6.2 shared memory
 
 It is possible to share memory between containers running in the same contianer.
 
 This is called InterProcessCommunication (IPC). by default Docker creates unique IPC namespace. 
 This helps in making two containers share messages
 
-### 6.2.1 Sharing IPC between containers
+### 6.2.1 sharing ipc between containers
 
 creating a producer
 
@@ -828,7 +828,7 @@ docker -d --name ch6_ipc_consumer \
 dockerinaction/ch6_ipc -consumer
 ```
 
-## 7 Packaging software in images
+## 7 packaging software in images
 
-### Union file system
+### union file system
 
